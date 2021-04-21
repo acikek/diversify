@@ -1,5 +1,5 @@
 dv_ERR_SCRIPT_MLF:
-  type: task
+  type: procedure
   definitions: script|msg
   script:
-  - debug error "Diversify Preset Script '<aqua><[script].name><white>' <[msg]>"
+  - determine "Diversify Preset Script '<aqua><[script].name><white>' <[msg]>"

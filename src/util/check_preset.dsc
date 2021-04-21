@@ -8,32 +8,29 @@ dv_check_preset:
   - define missing <list[name|blocks].exclude[<[preset].keys>]>
 
   - if <[missing].any>:
-    - run dv_ERR_SCRIPT_MLF "def:<[script]>|is missing the following required keys under the <&sq><aqua>dv_preset<white><&sq> key: <red><[missing].comma_separated>"
-    - determine false
+    - determine "<proc[dv_ERR_SCRIPT_MLF].context[<[script]>|is missing the following required keys under the <&sq><aqua>dv_preset<white><&sq> key: <red><[missing].comma_separated>]>"
 
   # Assuming the required keys have been accounted for, it is safe to check them without fallbacks.
   - define blocks <[preset].get[blocks]>
 
   - if !<[blocks].keys.exists>:
-    - run dv_ERR_SCRIPT_MLF "def:<[script]>|has a non-map value for the <&sq><aqua>blocks<white><&sq> key."
-    - determine false
+    - determine "<proc[dv_ERR_SCRIPT_MLF].context[<[script]>|has a non-map value for the <&sq><aqua>blocks<white><&sq> key.]>"
 
   - debug log <[blocks]>
   - define ur_keys <[blocks].keys.filter[proc[dv_invalid_mat]]>
   - define ur_vals <[blocks].values.combine.filter[proc[dv_invalid_mat]]>
 
   - if <[ur_keys].any>:
-    - run dv_ERR_INVALID_MATS def:<[script]>|key def.l:<[ur_keys]>
+    - determine <proc[dv_ERR_INVALID_MATS].context[<[script]>|key|<[ur_keys].comma_separated>]>
 
   - if <[ur_vals].any>:
-    - run dv_ERR_INVALID_MATS def:<[script]>|value def.l:<[ur_vals]>
+    - determine <proc[dv_ERR_INVALID_MATS].context[<[script]>|value|<[ur_vals].comma_separated>]>
 
   - if <[ur_keys].any> || <[ur_vals].any>:
     - determine false
 
   # "chance" being an integer shouldn't have to be accounted for in the percentage check.
   - if <[preset].get[chance].exists> && !<[preset].get[chance].is_decimal>:
-    - run dv_ERR_SCRIPT_MLF "def:<[script]>|has a non-number value for the <&sq><aqua>chance<white><&sq> key."
-    - determine false
+    - determine "<proc[dv_ERR_SCRIPT_MLF].context[<[script]>|has a non-number value for the <&sq><aqua>chance<white><&sq> key.]>"
 
   - determine true
