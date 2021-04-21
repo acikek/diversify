@@ -1,7 +1,7 @@
 dv_diversify:
   type: world
   events:
-    on player places block flagged:dv_preset:
+    on player places block flagged:dv_preset server_flagged:dv_valid:
     - if <player.has_flag[dv_enabled]>:
       - define preset <player.flag[dv_preset]>
       - define blocks <[preset].data_key[dv_preset].get[blocks]>

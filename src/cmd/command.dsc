@@ -5,11 +5,11 @@ dv_command:
   usage: /diversify (help/info/preset/reload/reset) (current/info/list/off/use) (<&lt>preset<&gt>)
   aliases:
   - dv
-  tab completions:
-    1: <player.is_op.if_true[help|info|preset|reload|reset].if_false[preset]>
-    2: <context.args.get[1].equals[preset].if_true[current|info|list|off|use].if_false[<context.args.get[1].equals[reset].if_true[confirm].if_false[]>]>
-    3: <list[info|use].contains[<context.args.get[2]>].if_true[<server.flag[dv_presets].parse[data_key[dv_preset].get[name]]>].if_false[]>
+  tab complete:
+  - determine <proc[tab_complete].context[<list[diversify|dv_command_tab_complete].include_single[<context.raw_args.escaped>]>]>
   script:
+  - inject dv_command_ERR_INVALID_VERSION
+
   - if !<context.args.get[1].exists>:
     - if <player.has_flag[dv_enabled]>:
       - flag <player> dv_enabled:!
